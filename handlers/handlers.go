@@ -14,7 +14,14 @@ func RootHandler(res http.ResponseWriter, req *http.Request) {
 func ListWinners(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 
-	data.ListAllJSON()
+	winners, err := data.ListAllJSON()
+
+	if err != nil {
+		res.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	res.Write(winners)
 }
 
 // AddNewWinner adds new winner to the list
